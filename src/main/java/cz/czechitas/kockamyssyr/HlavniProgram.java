@@ -41,9 +41,59 @@ public class HlavniProgram {
         chytMys();
     }
 
+
     public void chytMys() {
-        // TODO: Sem vepište svůj program
+        //0, 0 je levý horní roh
+        otocKockuSmeremNahoru();
+        // začátek lovu
+        sledujMys();
     }
+
+    private void sledujMys() {
+        while (jerry.isAlive() && tom.isAlive()) {
+            int x = jerry.getX();
+            if (tom.getX() > x) { // kočka je víc vpravo než myš
+                tom.turnLeft();
+                while (tom.getX() > x) {
+                    tom.moveForward();
+                }
+            } else if (tom.getX() < x) { // kočka je vlevo od myši
+                tom.turnRight();
+                while (tom.getX() < x) {
+                    tom.moveForward();
+                }
+            }
+
+            otocKockuSmeremNahoru();
+            sledujMys();
+            int y = jerry.getY();
+            if (tom.getY() > y) { // kočka je víc nahoře než myš
+                while (tom.getY() > y) {
+                    tom.moveForward();
+                }
+            } else if (tom.getY() < y) { // kočka je níž než myš
+                tom.turnLeft();
+                tom.turnLeft();
+                while (tom.getY() < y) {
+                    tom.moveForward();
+                }
+            }
+        }
+    }
+
+    private void otocKockuSmeremNahoru() {
+        if (tom.getOrientation() == PlayerOrientation.UP) {
+        } else if (tom.getOrientation() == PlayerOrientation.DOWN) {
+            tom.turnLeft();
+            tom.turnLeft();
+        } else if (tom.getOrientation() == PlayerOrientation.RIGHT) {
+            tom.turnLeft();
+        } else if (tom.getOrientation() == PlayerOrientation.LEFT) {
+            tom.turnRight();
+        }
+    }
+
+
 
     public void vytvorVeci(int pocetStromu) {
         for (int i = 0; i < pocetStromu; i++) {
